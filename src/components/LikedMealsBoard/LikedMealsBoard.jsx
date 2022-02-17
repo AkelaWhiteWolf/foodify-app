@@ -1,11 +1,11 @@
-import React from 'react'
+import {React} from 'react'
 import './LikedMealsBoard.css';
 
 import MealCard from '../MealCard/MealCard.jsx';
 import AddCustomMealBtn from '../AddCustomMealBtn/AddCustomMealBtn.jsx';
 
 export default function LikedMealsBoard({mealsArr, toggleModalNewMeal, deleteMeal}) {
-    let renderedMeals = mealsArr?.map(meal => {
+    const renderedMeals = mealsArr?.map(meal => {
         return (
             <MealCard
                 key={meal.idMeal}

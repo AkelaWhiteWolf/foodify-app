@@ -11,8 +11,15 @@ import './App.css';
 
 
 export default function App() {
+    let localLikedMeals;
+    try {
+        localLikedMeals = JSON.parse(localStorage.getItem('likedMeals'));
+    } catch {
+        localLikedMeals = [];
+    }
+
     const [randomMeal, setRandomMeal] = useState(null);
-    const [likedMeals, setLikedMeals] = useState([]);
+    const [likedMeals, setLikedMeals] = useState(localLikedMeals);
     const [modalNewMealIsVisible, setModalNewMealIsVisible] = useState(false);
 
     let mealId = useRef(1);
@@ -32,29 +39,47 @@ export default function App() {
         setRandomMeal(newMeal);
     }
 
-    function likeMeal(likedMeal) {
+    function likeMeal(likedMeal) {        
         return () => {
-            setLikedMeals(state => [...state, likedMeal]);
+            const newLikedMealsArr = [...likedMeals, likedMeal];
+
+            updateLikedMealsArr(newLikedMealsArr);
+
             showNewMeal();
         }
     }
 
     function deleteMeal(deletedMeal) {
         return () => {
-            setLikedMeals(state => {
-                let newState = [];
-                
-                for (let elem of state) {
-                    if (elem.idMeal !== deletedMeal.idMeal) newState.push(elem);
-                }
+            const newLikedMealsArr = [];
 
-                return newState;
-            });
+            for (let elem of likedMeals) {
+                if (elem.idMeal !== deletedMeal.idMeal) newLikedMealsArr.push(elem);
+            }
+
+            updateLikedMealsArr(newLikedMealsArr);
+            // setLikedMeals(state => {
+            //     let newState = [];
+                
+            //     for (let elem of state) {
+            //         if (elem.idMeal !== deletedMeal.idMeal) newState.push(elem);
+            //     }
+
+            //     addLikedMealsToLocalStorage();
+
+            //     return newState;
+            // });
+            
         }
     }
 
     function toggleModalNewMeal() {
         setModalNewMealIsVisible(s => !s);
+    }
+
+    function updateLikedMealsArr(arr) {
+        localStorage.setItem('likedMeals', JSON.stringify(arr));
+        setLikedMeals(arr);
     }
 
     useEffect(() => showNewMeal(), []);
