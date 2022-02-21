@@ -5,18 +5,16 @@ import LikedMealsBoard from '../LikedMealsBoard/LikedMealsBoard.jsx';
 import NavBar from '../NavBar/NavBar.jsx';
 import ModalNewMeal from '../ModalNewMeal/ModalNewMeal.jsx';
 
-import { BrowserRouter as Router,  Routes, Route} from 'react-router-dom';
+import { HashRouter,  Routes, Route} from 'react-router-dom';
 
 import './App.css';
 
 
 export default function App() {
-    let localLikedMeals;
-    try {
-        localLikedMeals = JSON.parse(localStorage.getItem('likedMeals'));
-    } catch {
-        localLikedMeals = [];
-    }
+    const localLikedMeals = localStorage.getItem('likedMeals') ?
+        JSON.parse(localStorage.getItem('likedMeals'))
+        :
+        [];
 
     const [randomMeal, setRandomMeal] = useState(null);
     const [likedMeals, setLikedMeals] = useState(localLikedMeals);
@@ -86,31 +84,31 @@ export default function App() {
     
     return (
         <React.StrictMode>
-            <Router>
+            <HashRouter>
                 <NavBar/>
 
                 {modalNewMeal}
 
-                    <main>
-                        <Routes>
-                            <Route path="/" element={
-                                    <CurrentMealBoard
-                                        meal={randomMeal}
-                                        showNewMeal={showNewMeal}
-                                        likeMeal={likeMeal}
-                                    />
-                                }/>
-                            
-                            <Route path="/liked" element={
-                                <LikedMealsBoard
-                                    mealsArr={likedMeals}
-                                    toggleModalNewMeal={toggleModalNewMeal}
-                                    deleteMeal={deleteMeal}
+                <main>
+                    <Routes>
+                        <Route path="/" element={
+                                <CurrentMealBoard
+                                    meal={randomMeal}
+                                    showNewMeal={showNewMeal}
+                                    likeMeal={likeMeal}
                                 />
                             }/>
-                        </Routes>
-                    </main>
-            </Router>
+                        
+                        <Route path="/liked" element={
+                            <LikedMealsBoard
+                                mealsArr={likedMeals}
+                                toggleModalNewMeal={toggleModalNewMeal}
+                                deleteMeal={deleteMeal}
+                            />
+                        }/>
+                    </Routes>
+                </main>
+            </HashRouter>
         </React.StrictMode>
     );
 };

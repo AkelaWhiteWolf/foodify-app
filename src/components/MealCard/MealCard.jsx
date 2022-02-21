@@ -25,15 +25,6 @@ export default function MealCard({img, mealName, mealInstruction, isRandomMeal, 
         >
             Delete
         </button>;
-
-
-    const mealButtonsContainer = (
-        <div
-            className="meal-buttons-container"
-        >
-            {buttons}
-        </div>
-    );
     
     const image = img ?
         <img
@@ -45,9 +36,7 @@ export default function MealCard({img, mealName, mealInstruction, isRandomMeal, 
         <div className="meal-img meal-no-img">There is no image</div>;
 
     return (
-        <article
-            className="meal-card"
-        >
+        <article className="meal-card">
             {image}
 
             <div className="description-container">
@@ -57,7 +46,9 @@ export default function MealCard({img, mealName, mealInstruction, isRandomMeal, 
 
             </div>
             
-            {mealButtonsContainer}
+            <div className="meal-buttons-container">
+                {buttons}
+            </div>
         </article>
     );
 };
